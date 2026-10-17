@@ -1,51 +1,45 @@
-# job-skill
+# job-skill-au
 
-AI-powered job search assistant for Indian professionals — built as a Claude Skill.
+Job search assistant for people living in Australia, built as a Claude Skill. Works for any
+profession, not just tech.
 
-Searches 12+ Indian and global job platforms (Naukri, LinkedIn, Instahyre, Cutshort, Hirist,
-Indeed India, Foundit, Shine, TimesJobs, Glassdoor, WeWorkRemotely, AngelList) plus direct
-company career pages, generates ATS-optimized, human-sounding resumes and cover letters
-tailored to each job posting, scores keyword match, tracks applications, and can automate
-nightly searches with a morning report.
+Searches the common Australian job boards (Seek, LinkedIn, Indeed AU, Jora, CareerOne, Glassdoor,
+Adzuna, Workforce Australia), APSJobs and every state and territory government board, plus niche
+boards by industry (tech and startups, graduates, not-for-profit, healthcare, education,
+universities, mining and FIFO). It scores each job against your resume, verifies every link,
+tracks applications in a spreadsheet, and can create a resume and cover letter tailored to each job.
 
 ## Commands
 
-- `/job-skill help` — usage guide
-- `/job-skill search` — search all platforms for roles matching your profile
-- `/job-skill automate` — set up a nightly automated search with a morning report
-- `/job-skill status` — check application status (auto-detects rejections/interviews via Gmail if connected)
+- `/job-skill-au help` — usage guide
+- `/job-skill-au search` — search the boards for jobs matching your profile
+- `/job-skill-au status` — update application statuses (from Gmail if connected, otherwise by asking)
+- `/job-skill-au automate` — schedule a recurring search with a short report
 
-Natural language also works — e.g. "Find me React jobs in Bangalore", "Apply to this job: [URL]",
-"What's the status of my applications?"
+Natural language also works, e.g. "find casual barista jobs in Fitzroy", "any new nursing jobs in
+Brisbane this week?", "write a cover letter for this Seek job: <link>".
 
 ## Key features
 
-- 13-channel search (12+ job boards + direct company career pages)
-- Tailored resume + cover letter generated per job, written to sound human (no AI clichés,
-  no templated bullet rhythm) rather than obviously AI-generated
-- Internal ATS keyword optimization (target ≥70% match) — never shown as a raw score to the user
-- Application tracker (`job_tracker.xlsx`) with status flow from Found → Applied → Offer/Rejected
-- Gmail-based auto-detection of rejections, interview invites, and assessments
-- **Auto-improvement on rejection patterns**: when Gmail shows repeated or same-day rejections,
-  the skill diagnoses the likely cause (ATS filter vs. targeting vs. seniority mismatch) and
-  automatically tightens keyword matching or search targeting going forward — and always tells
-  you what changed and why
-- Clean output only: no tool/JS/code-block narration, no "let me check X" pauses — just job
-  listings, fitness scores, apply links, and status updates
-- Weekly self-correction review of response/interview/ghosted rates
+- First run collects your resume and preferences (roles, locations, work type, salary in AUD, work
+  rights, security clearance) and saves them to `au_job_profile.md`, so it never asks again
+- Filters out jobs needing citizenship, a clearance or a licence you don't have
+- Fit score per job with a one-line reason and any gaps
+- **Job-specific resumes, your choice**: at setup, pick "ask me each time", "always" or "never".
+  Resumes follow Australian conventions (2–3 pages, no photo or date of birth, Australian spelling,
+  ATS-friendly layout) and never invent skills or experience. Optional cover letters, and
+  selection-criteria answers (STAR) for government roles
+- Every apply link is checked live; expired listings are dropped
+- Tracker `job_tracker_au.xlsx` with status flow Found → Applied → Interview → Offer / Rejected
+- Scheduled searches handle every Australian time zone (AEST/AEDT, ACST/ACDT, AWST)
 
 ## Installation
 
-Copy `SKILL.md` into your Claude Skills directory (e.g. `~/.claude/skills/job-skill/` or the
-equivalent user-skills path for your Claude setup), or install via your organization's skill
-catalog if available.
+Copy `SKILL.md` into `~/.claude/skills/job-skill-au/SKILL.md`:
 
-## Privacy
+```bash
+mkdir -p ~/.claude/skills/job-skill-au && curl -L https://raw.githubusercontent.com/mcaupybugs/job-skill/main/SKILL.md -o ~/.claude/skills/job-skill-au/SKILL.md
+```
 
-All data stays within the session. Optional Gmail integration only reads emails from companies
-you've applied to — nothing else. The skill never submits applications, creates accounts, or
-handles CAPTCHAs/OTPs/logins on your behalf; you review the morning report and apply manually.
-
-## License
-
-MIT — use and adapt freely.
+Then run `/job-skill-au search` in Claude Code from the folder where you want your profile,
+tracker and resumes saved.
